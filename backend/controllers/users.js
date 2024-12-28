@@ -42,7 +42,7 @@ const register = (req, res) => {
 const login = (req, res) => {
   const password = req.body.password;
   const email = req.body.email.toLowerCase();
-  usersModel
+  userModel
     .findOne({ email })
     .populate("role", "-_id -__v")
     .then(async (result) => {
