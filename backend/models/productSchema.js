@@ -5,7 +5,7 @@ const productSchema = new mongoose.Schema({
   img : {type: URL ,required:true},
   price : {type: Number , required: true},
   description : {type: String , required: true},
-  categoryId :{type: mongoose.Schema.Types.ObjectId, ref: "categorySchema"},
+  categoryId :{type: mongoose.Schema.Types.ObjectId, ref: "category"},
 });
 
 module.exports = mongoose.model("Product", productSchema);
