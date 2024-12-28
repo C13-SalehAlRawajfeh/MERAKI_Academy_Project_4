@@ -58,12 +58,12 @@ const getProductByCategoryId = (req, res) => {
       if (!result) {
         return res.status(404).json({
           success: false,
-          message: `Product with id ${categoryId} not found`,
+          message: `Products with category id ${categoryId} not found`,
         });
       }
       res.status(200).json({
         success: true,
-        message: `the Product ${categoryId}`,
+        message: `the Products with category id ${categoryId}`,
         result: result,
       });
     })
@@ -76,4 +76,100 @@ const getProductByCategoryId = (req, res) => {
     });
 };
 
-module.exports = { getAllProduct, creatNewProduct, getProductByCategoryId };
+// const getProductById = (req, res) => {
+//   const ProductId = req.params.id;
+
+//   productModel
+//     .find({ProductId})
+//     // .populate("product")
+//     .then((result) => {
+//       if (!result) {
+//         return res.status(404).json({
+//           success: false,
+//           message: `Product with id ${categoryId} not found`,
+//         });
+//       }
+//       console.log(result);
+//       res.status(200).json({
+//         success: true,
+//         message: `the Product ${categoryId}`,
+//         result: result,
+
+//       });
+//     })
+//     .catch((err) => {
+//       res.status(500).json({
+//         success: false,
+//         message: "server error",
+//         error: err,
+//       });
+//     });
+// };
+
+const updateProductById = (req, res) => {
+  const categorysId = req.params.id;
+  const { name, image, price, description, categoryId } = req.body;
+
+  productModel
+    .findOneAndUpdate(
+      { _id: categorysId },
+      {
+        $set: {
+          name: name,
+          image: image,
+          price: price,
+          description: description,
+          categoryId: categoryId,
+        },
+      },
+      { new: true }
+    )
+    .then((result) => {
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: `Product with id ${categoryId} not found`,
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: "Product updated",
+        result: result,
+      });
+    })
+    .catch((err) => {
+      res.status(404).json({
+        success: false,
+        message: "server error",
+        err: err,
+      });
+    });
+};
+
+const deleteCategoryById = (req, res) => {
+  const categoryId = req.params.id;
+
+  productModel
+    .findByIdAndDelete(categoryId)
+    .then(() => {
+      res.status(200).json({
+        success: true,
+        message: "Product deleted",
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        err: err,
+      });
+    });
+};
+
+module.exports = {
+  getAllProduct,
+  creatNewProduct,
+  getProductByCategoryId,
+  deleteCategoryById,
+  updateProductById,
+};

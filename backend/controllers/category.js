@@ -74,7 +74,7 @@ const getCategoryById = (req, res) => {
 
 const updateCategoryById = (req, res) => {
   const categoryId = req.params.id;
-  const { name, image } = req.body;
+  const { name } = req.body;
 
   categoryModel
     .findOneAndUpdate(
