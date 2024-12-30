@@ -55,12 +55,14 @@ const getProductByCategoryId = (req, res) => {
     .find({ categoryId })
     // .populate("product")
     .then((result) => {
-      if (!result) {
+      if (result.length === 0) {
         return res.status(404).json({
           success: false,
           message: `Products with category id ${categoryId} not found`,
         });
       }
+      console.log(result);
+
       res.status(200).json({
         success: true,
         message: `the Products with category id ${categoryId}`,
@@ -76,35 +78,38 @@ const getProductByCategoryId = (req, res) => {
     });
 };
 
-// const getProductById = (req, res) => {
-//   const ProductId = req.params.id;
+const getProductById = (req, res) => {
+  const ProductId = req.params.id;
 
-//   productModel
-//     .find({ProductId})
-//     // .populate("product")
-//     .then((result) => {
-//       if (!result) {
-//         return res.status(404).json({
-//           success: false,
-//           message: `Product with id ${categoryId} not found`,
-//         });
-//       }
-//       console.log(result);
-//       res.status(200).json({
-//         success: true,
-//         message: `the Product ${categoryId}`,
-//         result: result,
+  productModel
+    .findById(ProductId)
+    // .populate("product")
+    .then((result) => {
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: `Product with id ${ProductId} not found`,
+        });
+      }
+      // console.log(result);
+      res.status(200).json({
+        success: true,
+        message: `the Product ${ProductId}`,
+        result: result,
+      });
+    })
+    .catch((err) => {
+      console.log(ProductId);
 
-//       });
-//     })
-//     .catch((err) => {
-//       res.status(500).json({
-//         success: false,
-//         message: "server error",
-//         error: err,
-//       });
-//     });
-// };
+      console.log(err);
+
+      res.status(500).json({
+        success: false,
+        message: "server error",
+        error: err,
+      });
+    });
+};
 
 const updateProductById = (req, res) => {
   const categorysId = req.params.id;
@@ -170,6 +175,7 @@ module.exports = {
   getAllProduct,
   creatNewProduct,
   getProductByCategoryId,
+  getProductById,
   deleteCategoryById,
   updateProductById,
 };
