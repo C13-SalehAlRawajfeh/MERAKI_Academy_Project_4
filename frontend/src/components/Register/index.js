@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
@@ -73,6 +73,8 @@ const Register = () => {
         onChange={handelChange}
       />
       <button onClick={handelRegister}>Register</button>
+      {message && <div className="success-message">{message}</div>}
+      {error && <div className="error-message">{error}</div>}
     </div>
   );
 };
