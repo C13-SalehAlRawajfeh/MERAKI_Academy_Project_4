@@ -14,7 +14,7 @@ const authorization = require("../middleware/authorization");
 const CategoryRouter = express.Router();
 
 CategoryRouter.post("/", createNewCategory);
-CategoryRouter.get("/", authentication, getAllCategory);
+CategoryRouter.get("/", getAllCategory);
 CategoryRouter.get("/:id", getCategoryById);
 CategoryRouter.put("/:id", updateCategoryById);
 CategoryRouter.delete("/:id", deleteCategoryById);
