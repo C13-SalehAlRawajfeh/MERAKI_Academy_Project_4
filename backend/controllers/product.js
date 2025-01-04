@@ -30,17 +30,16 @@ const creatNewProduct = (req, res) => {
 };
 
 const getAllProduct = (req, res) => {
-  const userId = req.token.userId
-  const cartId =req.token.cartId
+  // const userId = req.token.userId
+  // const cartId =req.token.cartId
   productModel
     .find()
     .then((result) => {
+
       res.status(200).json({
         success: true,
         message: "All the Product",
-        userId: userId,
-        cartId: cartId,
-        result: result,
+        result: result,      
       });
     })
     .catch((err) => {

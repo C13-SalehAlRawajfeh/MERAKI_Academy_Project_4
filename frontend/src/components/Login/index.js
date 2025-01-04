@@ -4,7 +4,7 @@ import { userContext } from "../../App";
 import axios from "axios";
 
 const Login = () => {
-  const { setToken } = useContext(userContext);
+  const { setToken ,setIsLoggedIn} = useContext(userContext);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [error, seterror] = useState("");
   const navigate = useNavigate("");
@@ -20,6 +20,7 @@ const Login = () => {
         const token = result.data.token;
         localStorage.setItem("token", token);
         setToken(token);
+        setIsLoggedIn(true)
         navigate("/homePage");
       })
       .catch((error) => {
