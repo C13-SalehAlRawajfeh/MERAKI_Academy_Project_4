@@ -6,7 +6,7 @@ import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import HomePage from "./components/homePage";
 import NewProduct from "./components/addNewProduct";
-import AddCategory from "./components/addCategory"
+import AddCategory from "./components/addCategory";
 export const userContext = createContext();
 
 const App = () => {
@@ -15,7 +15,10 @@ const App = () => {
 
   useEffect(() => {
     if (token) {
-      setToken(true);
+      console.log(token)
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
     }
   }, [token]);
   return (
@@ -23,13 +26,13 @@ const App = () => {
       value={{ token, setToken, isLoggedIn, setIsLoggedIn }}
     >
       <div className="App">
-        <Navbar /> 
+        <Navbar />
         <Routes>
           <Route path="/homePage" element={<HomePage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/addProduct" element={<NewProduct/>}/>
-          <Route path="/addCategory" element={<AddCategory/>}/>
+          <Route path="/addProduct" element={<NewProduct />} />
+          <Route path="/addCategory" element={<AddCategory />} />
         </Routes>
       </div>
     </userContext.Provider>

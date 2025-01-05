@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { userContext } from "../../App";
-import "./style.css"
+import "./style.css";
 
 const Navbar = () => {
   const { token, setToken, isLoggedIn, setIsLoggedIn } =
@@ -13,8 +13,7 @@ const Navbar = () => {
     setToken("");
     setIsLoggedIn(false);
   };
-  const handelSearch = () => {
-  }
+  const handelSearch = () => {};
   return (
     <div className="navbar">
       <div>
@@ -43,13 +42,9 @@ const Navbar = () => {
         <Link to="/addCategory">Add Category</Link>
       </div>
       <dive className="navbar-search">
-        <input
-          type="text"
-          name="search"
-          placeholder="Search ..."
-        />
+        <input type="text" name="search" placeholder="Search ..." />
         <button type="submit">Search</button>
-        </dive>
+      </dive>
     </div>
   );
 };

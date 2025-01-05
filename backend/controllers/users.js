@@ -2,60 +2,66 @@ const userModel = require("../models/userSchema");
 const cartModel = require("../models/cartSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const RoleModel = require("../models/roleSchema");
 
 const register = (req, res) => {
-  const { firstName, lastName, phoneNumber, country, email, password, role } =
+  const { firstName, lastName, phoneNumber, country, email, password } =
     req.body;
-  const user = new userModel({
-    firstName,
-    lastName,
-    phoneNumber,
-    country,
-    email,
-    password,
-    role,
-  });
 
-  user
-    .save()
-    .then((result) => {
-      const newCart = new cartModel({
-        userId: result._id,
-        productId: [],
-        quantity: 0,
-      });
-
-      newCart
-        .save()
-        .then((cartResult) => {
-          res.status(201).json({
-            success: true,
-            message: `Account Created Successfully`,
-            author: result,
-            cart: cartResult,
-          });
-        })
-        .catch((cartError) => {
-          res.status(500).json({
-            success: false,
-            message: `Failed to create cart`,
-            err: cartError.message,
-          });
-        });
-    })
-    .catch((err) => {
-      if (err.keyPattern) {
-        return res.status(409).json({
-          success: false,
-          message: `The email already exists`,
-        });
-      }
-      res.status(500).json({
-        success: false,
-        message: `Server Error`,
-        err: err.message,
-      });
+  RoleModel.findOne({ role: req.body.role }).then((roleObj) => {
+    role = roleObj._id;
+    const user = new userModel({
+      firstName,
+      lastName,
+      phoneNumber,
+      country,
+      email,
+      password,
+      role,
     });
+
+    user
+      .save()
+      .then((result) => {
+        const newCart = new cartModel({
+          userId: result._id,
+          productId: [],
+          quantity: 0,
+        });
+
+        newCart
+          .save()
+          .then((cartResult) => {
+            res.status(201).json({
+              success: true,
+              message: `Account Created Successfully`,
+              author: result,
+              cart: cartResult,
+            });
+          })
+          .catch((cartError) => {
+            res.status(500).json({
+              success: false,
+              message: `Failed to create cart`,
+              err: cartError.message,
+            });
+          });
+      })
+      .catch((err) => {
+        if (err.keyPattern) {
+          return res.status(409).json({
+            success: false,
+            message: `The email already exists`,
+          });
+        }
+
+        res.status(500).json({
+          success: false,
+          message: `Server Error`,
+          err: err.message,
+        });
+      });
+  });
 };
 
 const login = (req, res) => {
