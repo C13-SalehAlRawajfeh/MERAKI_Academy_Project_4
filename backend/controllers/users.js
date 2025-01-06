@@ -85,22 +85,34 @@ const login = (req, res) => {
             message: `The email doesn't exist or The password you’ve entered is incorrect`,
           });
         }
-        const payload = {
-          userId: result._id,
-          author: result.firstName,
-          role: result.role,
-          country: result.country,
-        };
+        userId = result._id
+        cartModel
+          .findOne({ userId })
+          .then((cartObj) => {
+            const payload = {
+              userId: result._id,
+              userName: `${result.firstName} - ${result.lastName}`,
+              role: result.role,
+            };
 
-        const options = {
-          expiresIn: "60m",
-        };
-        const token = jwt.sign(payload, process.env.SECRET, options);
-        res.status(200).json({
-          success: true,
-          message: `Valid login credentials`,
-          token: token,
-        });
+            const options = {
+              expiresIn: "60m",
+            };
+            const token = jwt.sign(payload, process.env.SECRET, options);
+            res.status(200).json({
+              success: true,
+              message: "Valid login credentials",
+              userCreds: {
+                token: token,
+                payload: payload,
+              },
+              cartList: cartObj.products,
+              favoriteList: result.fav,
+            });
+          })
+          .catch((error) => {
+            throw new Error(error.message);
+          });
       } catch (error) {
         throw new Error(error.message);
       }

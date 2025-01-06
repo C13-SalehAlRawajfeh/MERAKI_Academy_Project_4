@@ -1,16 +1,21 @@
 import React, { useState, useContext } from "react";
+import { userContext } from "../../App";
 import axios from "axios";
 
 const AddCategory = () => {
-  const [categoryName, setCategoryName] = useState("");
+   const { userCreds, categoryList, setCategoryList} =
+      useContext(userContext);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const handelChange = (e) => {
-    setCategoryName(e.target.value);
+    setCategoryList(e.target.value);
   };
   const handelCreateCategory = () => {
     axios
-      .post("http://localhost:5000/category", {name: categoryName })
+      .post("http://localhost:5000/category", {name: categoryList },
+        { headers: { Authorization: `Bearer ${userCreds.token}` } }
+        
+      )
       .then((result) => {
         setMessage(result.data.message);
         setError("");

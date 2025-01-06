@@ -4,7 +4,8 @@ import { userContext } from "../../App";
 import axios from "axios";
 
 const Login = () => {
-  const { setToken ,setIsLoggedIn} = useContext(userContext);
+  const { setUserCreds, setIsLoggedIn, setFavoriteList, setCartList } =
+    useContext(userContext);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [error, seterror] = useState("");
   const navigate = useNavigate("");
@@ -17,10 +18,14 @@ const Login = () => {
     axios
       .post("http://localhost:5000/users/login", loginData)
       .then((result) => {
-        const token = result.data.token;
-        localStorage.setItem("token", token);
-        setToken(token);
-        setIsLoggedIn(true)
+        const { userCreds, cartList, favoriteList } = result.data;
+        console.log(result.data);
+
+        localStorage.setItem("userCreds", JSON.stringify(userCreds));
+        setCartList(cartList);
+        setUserCreds(userCreds);
+        setFavoriteList(favoriteList);
+        setIsLoggedIn(true);
         navigate("/homePage");
       })
       .catch((error) => {

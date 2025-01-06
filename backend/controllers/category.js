@@ -6,8 +6,6 @@ const createNewCategory = (req, res) => {
   newCategory
     .save()
     .then((result) => {
-      // console.log(result);
-
       res.status(201).json({
         success: true,
         message: `category created`,

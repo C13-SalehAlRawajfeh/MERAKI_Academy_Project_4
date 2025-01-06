@@ -20,7 +20,7 @@ const Register = () => {
   };
 
   const handelRegister = () => {
-    axios.post("http://localhost:5000/users/register", { ...Data, role: "admin" })
+    axios.post("http://localhost:5000/users/register", { ...Data, role: "user" })
     .then((result) => {
        setMessage(result.data.message)
        seterror("")

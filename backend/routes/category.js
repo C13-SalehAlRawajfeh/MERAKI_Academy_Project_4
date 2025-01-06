@@ -13,10 +13,10 @@ const authorization = require("../middleware/authorization");
 
 const CategoryRouter = express.Router();
 
-CategoryRouter.post("/", createNewCategory);
 CategoryRouter.get("/", getAllCategory);
-CategoryRouter.get("/:id", getCategoryById);
-CategoryRouter.put("/:id", updateCategoryById);
-CategoryRouter.delete("/:id", deleteCategoryById);
+CategoryRouter.get("/:id", authentication, authorization('category'),getCategoryById);
+CategoryRouter.post("/", authentication, authorization('category'), createNewCategory);
+CategoryRouter.put("/:id", authentication, authorization('category'),updateCategoryById);
+CategoryRouter.delete("/:id", authentication, authorization('category'),deleteCategoryById);
 
 module.exports = CategoryRouter;

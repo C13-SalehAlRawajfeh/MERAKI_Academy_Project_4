@@ -1,6 +1,6 @@
-import React, { useState, useContext ,useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
-
+import { userContext } from "../../App";
 
 const NewProduct = () => {
   const [productData, setProductData] = useState({
@@ -10,21 +10,9 @@ const NewProduct = () => {
     description: "",
     categoryId: "",
   });
-  const [categories, setCategories] = useState([])
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/category") 
-      .then((response) => {
-        setCategories(response.data.result);
-      })
-      .catch((err) => {
-        console.error("Error fetching categories:", err);
-        setError("Failed to fetch categories");
-      });
-  }, []);
+  const { categoryList, productList, setProductList } = useContext(userContext);
 
   const handelChange = (e) => {
     setProductData({ ...productData, [e.target.name]: e.target.value });
@@ -35,6 +23,7 @@ const NewProduct = () => {
       .post("http://localhost:5000/product", { ...productData })
       .then((result) => {
         setMessage(result.data.message);
+        setProductList(...productList, result.data.product);
         setError("");
       })
       .catch((err) => {
@@ -74,7 +63,7 @@ const NewProduct = () => {
         onChange={handelChange}
       >
         <option value="">Select a Category</option>
-        {categories.map((category) => (
+        {categoryList.map((category) => (
           <option key={category._id} value={category._id}>
             {category.name}
           </option>

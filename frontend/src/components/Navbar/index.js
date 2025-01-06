@@ -4,16 +4,18 @@ import { userContext } from "../../App";
 import "./style.css";
 
 const Navbar = () => {
-  const { token, setToken, isLoggedIn, setIsLoggedIn } =
-    useContext(userContext);
   const navigate = useNavigate();
+  const { userCreds, setUserCreds, isLoggedIn, setIsLoggedIn } =
+    useContext(userContext);
 
   const handelLogout = () => {
-    localStorage.removeItem("token");
-    setToken("");
+    localStorage.removeItem("userCreds");
     setIsLoggedIn(false);
+    setUserCreds({});
   };
+
   const handelSearch = () => {};
+
   return (
     <div className="navbar">
       <div>
@@ -22,7 +24,9 @@ const Navbar = () => {
           <div className="user-info">
             {isLoggedIn ? (
               <>
-                <span className="username">Welcome, User</span>
+                <span className="username">
+                  Welcome, {userCreds?.payload?.userName}
+                </span>
                 <button onClick={handelLogout}>Logout</button>
                 <Link to="/cart">Cart</Link>
                 <Link to="/favorites">Favorites</Link>
@@ -36,11 +40,25 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className="navbar-links">
-        <Link to="/homePage">Home</Link>
-        <Link to="/addProduct">Add Product</Link>
-        <Link to="/addCategory">Add Category</Link>
-      </div>
+      {isLoggedIn ? (
+        <div className="navbar-links">
+          <Link to="/homePage">Home</Link>
+          <Link to="/categories">Categories</Link>
+          <Link to="/products">Products</Link>
+          {userCreds.payload.role?.permissions?.product?.includes("POST") && (
+            <Link to="/addProduct">Add Product</Link>
+          )}
+          {userCreds.payload.role?.permissions?.category?.includes("POST") && (
+            <Link to="/addCategory">Add Category</Link>
+          )}
+        </div>
+      ) : (
+        <div className="navbar-links">
+          <Link to="/homePage">Home</Link>
+          <Link to="/categories">Categories</Link>
+          <Link to="/products">Products</Link>
+        </div>
+      )}
       <dive className="navbar-search">
         <input type="text" name="search" placeholder="Search ..." />
         <button type="submit">Search</button>

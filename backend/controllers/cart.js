@@ -32,8 +32,8 @@ const deleteFromCart = (req, res) => {
 };
 
 const addToCart = (req, res) => {
-  const { userId, productId, quantity } = req.body;
-
+  const userId = req.token.userId;
+  const { productId, quantity } = req.body;
   cartModel
     .findOneAndUpdate(
       { userId: userId, "products.productId": productId },
@@ -43,6 +43,7 @@ const addToCart = (req, res) => {
       { new: true }
     )
     .then((result) => {
+      console.log("result", result);
       if (!result) {
         return cartModel
           .findOneAndUpdate(

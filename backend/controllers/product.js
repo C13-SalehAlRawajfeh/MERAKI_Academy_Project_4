@@ -17,7 +17,7 @@ const creatNewProduct = (req, res) => {
       res.status(201).json({
         success: true,
         message: `Product created`,
-        Product: result,
+        product: result,
       });
     })
     .catch((err) => {
@@ -37,8 +37,6 @@ const getAllProduct = (req, res) => {
     .then((result) => {
 
       res.status(200).json({
-        success: true,
-        message: "All the Product",
         result: result,      
       });
     })
@@ -64,7 +62,6 @@ const getProductByCategoryId = (req, res) => {
           message: `Products with category id ${categoryId} not found`,
         });
       }
-      console.log(result);
 
       res.status(200).json({
         success: true,
@@ -94,7 +91,6 @@ const getProductById = (req, res) => {
           message: `Product with id ${ProductId} not found`,
         });
       }
-      // console.log(result);
       res.status(200).json({
         success: true,
         message: `the Product ${ProductId}`,
@@ -102,10 +98,6 @@ const getProductById = (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(ProductId);
-
-      console.log(err);
-
       res.status(500).json({
         success: false,
         message: "server error",
