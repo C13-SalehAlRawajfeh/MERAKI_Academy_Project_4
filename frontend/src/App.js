@@ -15,19 +15,18 @@ import AboutUs from "./components/aboutUs";
 import Categories from "./components/categories";
 export const userContext = createContext();
 
-
 const App = () => {
   const [userCreds, setUserCreds] = useState(
     JSON.parse(localStorage.getItem("userCreds" || {}))
   );
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [product, setProduct] = useState([]);
   const [cartList, setCartList] = useState([]);
   const [favoriteList, setFavoriteList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [productList, setProductList] = useState([]);
   // console.log(categoryList);
   // console.log(productList);
-  
 
   const getCategories = () => {
     axios
@@ -63,6 +62,8 @@ const App = () => {
   return (
     <userContext.Provider
       value={{
+        product,
+        setProduct,
         userCreds,
         setUserCreds,
         isLoggedIn,
