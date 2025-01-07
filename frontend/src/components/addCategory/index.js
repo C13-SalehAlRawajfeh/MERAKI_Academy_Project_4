@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { userContext } from "../../App";
 import axios from "axios";
+import "./style.css"
 
 const AddCategory = () => {
    const { userCreds, categoryList, setCategoryList} =
@@ -28,12 +29,18 @@ const AddCategory = () => {
 
   return (
     <div className="newCategory">
-        <input type="text" name="name" placeholder="Category Name" onChange={handelChange}/>
-        <button onClick={handelCreateCategory}>Creatr Category</button>
-        {message && <div className="success-message">{message}</div>}
-        {error && <div className="error-message">{error}</div>}
+      <h2>Add New Category</h2>
+      <input
+        type="text"
+        name="name"
+        placeholder="Category Name"
+        onChange={handelChange}
+      />
+      <button onClick={handelCreateCategory}>Create Category</button>
+      {message && <div className="success-message">{message}</div>}
+      {error && <div className="error-message">{error}</div>}
     </div>
-  )
+  );
 };
 
 export default AddCategory;

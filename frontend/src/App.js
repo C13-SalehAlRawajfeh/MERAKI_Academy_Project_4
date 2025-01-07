@@ -7,7 +7,11 @@ import Navbar from "./components/Navbar";
 import HomePage from "./components/homePage";
 import NewProduct from "./components/addNewProduct";
 import AddCategory from "./components/addCategory";
+import Cart from "./components/cart";
 import axios from "axios";
+import Favorites from "./components/favorites";
+import ContactUs from "./components/contactUs";
+import AboutUs from "./components/aboutUs";
 export const userContext = createContext();
 
 const App = () => {
@@ -44,7 +48,6 @@ const App = () => {
   useEffect(() => {
     if (userCreds) {
       setIsLoggedIn(true);
-      
     } else {
       setIsLoggedIn(false);
     }
@@ -74,6 +77,10 @@ const App = () => {
         <Routes>
           <Route path="/homePage" element={<HomePage />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/contactUs" element={<ContactUs />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/favorites" element={<Favorites />} />
           <Route path="/login" element={<Login />} />
           <Route path="/addProduct" element={<NewProduct />} />
           <Route path="/addCategory" element={<AddCategory />} />

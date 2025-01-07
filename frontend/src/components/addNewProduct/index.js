@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { userContext } from "../../App";
+import "./style.css"
 
 const NewProduct = () => {
   const [productData, setProductData] = useState({
@@ -33,6 +34,7 @@ const NewProduct = () => {
   };
   return (
     <div className="newProdect">
+      <h2>Add New Product</h2>
       <input
         type="text"
         name="name"
@@ -42,20 +44,29 @@ const NewProduct = () => {
       <input
         type="text"
         name="image"
-        placeholder="Image Product"
+        placeholder="Image URL"
         onChange={handelChange}
       />
       <input
         type="number"
         name="price"
-        placeholder="Price Product"
+        placeholder="Product Price"
         onChange={handelChange}
       />
-      <input
-        type="text"
+      <textarea
         name="description"
         placeholder="Product Description"
+        rows="4"
         onChange={handelChange}
+        style={{
+          width: "100%",
+          padding: "10px",
+          marginBottom: "15px",
+          border: "1px solid #ddd",
+          borderRadius: "5px",
+          fontSize: "1rem",
+          boxSizing: "border-box",
+        }}
       />
       <select
         name="categoryId"
@@ -69,7 +80,7 @@ const NewProduct = () => {
           </option>
         ))}
       </select>
-      <button onClick={handelCreateProduct}>Add New Product</button>
+      <button onClick={handelCreateProduct}>Add Product</button>
       {message && <div className="success-message">{message}</div>}
       {error && <div className="error-message">{error}</div>}
     </div>

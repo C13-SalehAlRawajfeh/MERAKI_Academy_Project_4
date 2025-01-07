@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./style.css"
 
 const Register = () => {
   const [Data, setData] = useState({
@@ -36,42 +37,60 @@ const Register = () => {
   return (
     <div className="Register">
       <h3>Register:</h3>
-      <input
-        placeholder="First Name"
-        name="firstName"
-        type="text"
-        onChange={handelChange}
-      />
-      <input
-        placeholder="Last Name"
-        name="lastName"
-        type="text"
-        onChange={handelChange}
-      />
-      <input
-        placeholder="Phone Number"
-        name="phoneNumber"
-        type="number"
-        onChange={handelChange}
-      />
-      <input
-        placeholder="Country"
-        name="country"
-        type="text"
-        onChange={handelChange}
-      />
-      <input
-        placeholder="Email"
-        name="email"
-        type="email"
-        onChange={handelChange}
-      />
-      <input
-        placeholder="Password"
-        name="password"
-        type="password"
-        onChange={handelChange}
-      />
+      <div className="input-container">
+        <i className="fas fa-user"></i>
+        <input
+          placeholder="First Name"
+          name="firstName"
+          type="text"
+          onChange={handelChange}
+        />
+      </div>
+      <div className="input-container">
+        <i className="fas fa-user"></i>
+        <input
+          placeholder="Last Name"
+          name="lastName"
+          type="text"
+          onChange={handelChange}
+        />
+      </div>
+      <div className="input-container">
+        <i className="fas fa-phone"></i>
+        <input
+          placeholder="Phone Number"
+          name="phoneNumber"
+          type="number"
+          onChange={handelChange}
+        />
+      </div>
+      <div className="input-container">
+        <i className="fas fa-globe"></i>
+        <input
+          placeholder="Country"
+          name="country"
+          type="text"
+          onChange={handelChange}
+        />
+      </div>
+      <div className="input-container">
+        <i className="fas fa-envelope"></i>
+        <input
+          placeholder="Email"
+          name="email"
+          type="email"
+          onChange={handelChange}
+        />
+      </div>
+      <div className="input-container">
+        <i className="fas fa-lock"></i>
+        <input
+          placeholder="Password"
+          name="password"
+          type="password"
+          onChange={handelChange}
+        />
+      </div>
       <button onClick={handelRegister}>Register</button>
       {message && <div className="success-message">{message}</div>}
       {error && <div className="error-message">{error}</div>}

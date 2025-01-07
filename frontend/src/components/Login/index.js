@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userContext } from "../../App";
 import axios from "axios";
+import "./style.css"
 
 const Login = () => {
   const { setUserCreds, setIsLoggedIn, setFavoriteList, setCartList } =
@@ -36,18 +37,24 @@ const Login = () => {
   return (
     <div className="login">
       <h3>Login:</h3>
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        onChange={handleChange}
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        onChange={handleChange}
-      />
+      <div className="input-container">
+        <i className="fas fa-envelope"></i>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          onChange={handleChange}
+        />
+      </div>
+      <div className="input-container">
+        <i className="fas fa-lock"></i>
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          onChange={handleChange}
+        />
+      </div>
       <button onClick={handleLogin}>Login</button>
       {error && <div className="error-message">{error}</div>}
     </div>

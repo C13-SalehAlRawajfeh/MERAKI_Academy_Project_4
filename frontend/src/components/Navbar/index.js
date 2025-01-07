@@ -12,57 +12,62 @@ const Navbar = () => {
     localStorage.removeItem("userCreds");
     setIsLoggedIn(false);
     setUserCreds({});
+    navigate("/homePage");
   };
 
   const handelSearch = () => {};
 
   return (
     <div className="navbar">
-      <div>
-        <div className="navbar-header">
-          <h1 className="title">My E-Commerce</h1>
-          <div className="user-info">
-            {isLoggedIn ? (
-              <>
-                <span className="username">
-                  Welcome, {userCreds?.payload?.userName}
-                </span>
-                <button onClick={handelLogout}>Logout</button>
-                <Link to="/cart">Cart</Link>
-                <Link to="/favorites">Favorites</Link>
-              </>
-            ) : (
-              <>
-                <Link to="/login">Login</Link>
-                <Link to={"/register"}>register</Link>
-              </>
-            )}
-          </div>
+      <div className="navbar-header">
+        <h1 className="title">My E-Commerce</h1>
+        <div className="user-info">
+          {isLoggedIn ? (
+            <>
+              <span className="username">
+                Welcome {userCreds?.payload?.userName}
+              </span>
+              <button className="logout-btn" onClick={handelLogout}>
+                Logout
+              </button>
+              <Link to="/cart">
+                <i className="fas fa-shopping-cart"></i>
+              </Link>
+              <Link to="/favorites">
+                <i className="fas fa-heart"></i>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
+            </>
+          )}
         </div>
       </div>
-      {isLoggedIn ? (
-        <div className="navbar-links">
-          <Link to="/homePage">Home</Link>
-          <Link to="/categories">Categories</Link>
-          <Link to="/products">Products</Link>
-          {userCreds.payload.role?.permissions?.product?.includes("POST") && (
+
+      <div className="navbar-links">
+        <Link to="/homePage">Home</Link>
+        <Link to="/categories">Categories</Link>
+        <Link to="/products">Products</Link>
+        <Link to="/ContactUs">Contact Us</Link>
+        <Link to="/aboutUs">About Us</Link>
+        {isLoggedIn &&
+          userCreds.payload.role?.permissions?.product?.includes("POST") && (
             <Link to="/addProduct">Add Product</Link>
           )}
-          {userCreds.payload.role?.permissions?.category?.includes("POST") && (
+        {isLoggedIn &&
+          userCreds.payload.role?.permissions?.category?.includes("POST") && (
             <Link to="/addCategory">Add Category</Link>
           )}
-        </div>
-      ) : (
-        <div className="navbar-links">
-          <Link to="/homePage">Home</Link>
-          <Link to="/categories">Categories</Link>
-          <Link to="/products">Products</Link>
-        </div>
-      )}
-      <dive className="navbar-search">
+      </div>
+
+      <div className="navbar-search">
         <input type="text" name="search" placeholder="Search ..." />
-        <button type="submit">Search</button>
-      </dive>
+        <button type="submit">
+          <i className="fas fa-search"></i>
+        </button>
+      </div>
     </div>
   );
 };
