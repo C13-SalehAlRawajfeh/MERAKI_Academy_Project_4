@@ -7,7 +7,6 @@ const HomePage = () => {
   const { userCreds, cartList, setCartList, productList } =
     useContext(userContext);
   const [error, setError] = useState("");
-
   const addToCart = (productId) => {
     axios
       .post(
@@ -22,7 +21,7 @@ const HomePage = () => {
   };
   const addToFavorite = () => {};
 
-  useEffect(() => {},[]);
+  useEffect(() => {}, [productList]);
 
   return (
     <div className="home">

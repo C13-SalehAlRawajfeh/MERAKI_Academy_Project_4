@@ -12,7 +12,9 @@ import axios from "axios";
 import Favorites from "./components/favorites";
 import ContactUs from "./components/contactUs";
 import AboutUs from "./components/aboutUs";
+import Categories from "./components/categories";
 export const userContext = createContext();
+
 
 const App = () => {
   const [userCreds, setUserCreds] = useState(
@@ -23,6 +25,9 @@ const App = () => {
   const [favoriteList, setFavoriteList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [productList, setProductList] = useState([]);
+  // console.log(categoryList);
+  // console.log(productList);
+  
 
   const getCategories = () => {
     axios
@@ -76,6 +81,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/homePage" element={<HomePage />} />
+          <Route path="/categories" element={<Categories />} />
           <Route path="/register" element={<Register />} />
           <Route path="/contactUs" element={<ContactUs />} />
           <Route path="/aboutUs" element={<AboutUs />} />

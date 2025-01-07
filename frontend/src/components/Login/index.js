@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userContext } from "../../App";
 import axios from "axios";
-import "./style.css"
+import "./style.css";
 
 const Login = () => {
   const { setUserCreds, setIsLoggedIn, setFavoriteList, setCartList } =
@@ -20,7 +20,6 @@ const Login = () => {
       .post("http://localhost:5000/users/login", loginData)
       .then((result) => {
         const { userCreds, cartList, favoriteList } = result.data;
-        console.log(result.data);
 
         localStorage.setItem("userCreds", JSON.stringify(userCreds));
         setCartList(cartList);
