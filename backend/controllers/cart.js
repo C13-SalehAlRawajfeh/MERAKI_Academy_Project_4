@@ -1,11 +1,12 @@
 const cartModel = require("../models/cartSchema");
 
 const deleteFromCart = (req, res) => {
-  const { cartId, productId } = req.body;
+  const userId = req.token.userId;
+  const { productId } = req.body;
 
   cartModel
-    .findByIdAndUpdate(
-      cartId,
+    .findOneAndUpdate(
+      { userId: userId },
       { $pull: { products: { productId: productId } } },
       { new: true }
     )
@@ -34,6 +35,7 @@ const deleteFromCart = (req, res) => {
 const addToCart = (req, res) => {
   const userId = req.token.userId;
   const { productId, quantity } = req.body;
+
   cartModel
     .findOneAndUpdate(
       { userId: userId, "products.productId": productId },
@@ -43,7 +45,6 @@ const addToCart = (req, res) => {
       { new: true }
     )
     .then((result) => {
-      console.log("result", result);
       if (!result) {
         return cartModel
           .findOneAndUpdate(

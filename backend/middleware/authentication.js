@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 const authentication = (req, res, next) => {
-  console.log(req.headers.authorization);
-  
+  console.log("req.headers.authorization", req.headers.authorization);
+
   try {
     if (!req.headers.authorization) {
       return res.status(403).json({
@@ -10,8 +10,7 @@ const authentication = (req, res, next) => {
         message: `Forbidden`,
       });
     }
-    console.log(req.headers);
-    
+
     const token = req.headers.authorization.split(" ").pop();
 
     jwt.verify(token, process.env.SECRET, (err, result) => {
@@ -22,6 +21,7 @@ const authentication = (req, res, next) => {
         });
       } else {
         req.token = result;
+        console.log("Nexxxxxxxxxxt");
         next();
       }
     });

@@ -21,6 +21,8 @@ const creatNewProduct = (req, res) => {
       });
     })
     .catch((err) => {
+      console.error("err", err);
+
       res.status(500).json({
         success: false,
         message: `Server Error`,
@@ -35,9 +37,8 @@ const getAllProduct = (req, res) => {
   productModel
     .find()
     .then((result) => {
-
       res.status(200).json({
-        result: result,      
+        result: result,
       });
     })
     .catch((err) => {
@@ -107,12 +108,14 @@ const getProductById = (req, res) => {
 };
 
 const updateProductById = (req, res) => {
-  const categorysId = req.params.id;
+  const productId = req.params.id;
   const { name, image, price, description, categoryId } = req.body;
 
+  console.log("productId", productId);
+  console.log("categoryId", categoryId);
   productModel
     .findOneAndUpdate(
-      { _id: categorysId },
+      { _id: productId },
       {
         $set: {
           name: name,
@@ -131,6 +134,7 @@ const updateProductById = (req, res) => {
           message: `Product with id ${categoryId} not found`,
         });
       }
+      console.log("result", result);
       res.status(200).json({
         success: true,
         message: "Product updated",
@@ -146,11 +150,10 @@ const updateProductById = (req, res) => {
     });
 };
 
-const deleteCategoryById = (req, res) => {
-  const categoryId = req.params.id;
-
+const deleteProductById = (req, res) => {
+  const productId = req.params.id;
   productModel
-    .findByIdAndDelete(categoryId)
+    .findByIdAndDelete(productId)
     .then(() => {
       res.status(200).json({
         success: true,
@@ -171,6 +174,6 @@ module.exports = {
   creatNewProduct,
   getProductByCategoryId,
   getProductById,
-  deleteCategoryById,
+  deleteProductById,
   updateProductById,
 };

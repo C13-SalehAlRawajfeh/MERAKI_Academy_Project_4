@@ -2,9 +2,10 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { userContext } from "../../App";
 import "./style.css";
+import { useLocation, useParams } from "react-router-dom";
 
-const NewProduct = () => {
-  const [productData, setProductData] = useState({
+const EditProduct = () => {
+  const [editProduct, seteditProduct] = useState({
     name: "",
     image: "",
     price: "",
@@ -15,21 +16,25 @@ const NewProduct = () => {
   const [error, setError] = useState("");
   const { categoryList, productList, userCreds, setProductList } =
     useContext(userContext);
+  const location = useLocation();
 
   const handelChange = (e) => {
-    setProductData({ ...productData, [e.target.name]: e.target.value });
+    seteditProduct({ ...editProduct, [e.target.name]: e.target.value });
   };
 
-  const handelCreateProduct = () => {
+  const handelUpdateProduct = (id) => {
     axios
-      .post(
-        "http://localhost:5000/product",
-        { ...productData },
+      .put(
+        `http://localhost:5000/product/${id}`,
+        { ...editProduct },
         { headers: { Authorization: `Bearer ${userCreds.token}` } }
       )
       .then((result) => {
+        console.log("result", result);
         setMessage(result.data.message);
-        setProductList([...productList, result.data.product]);
+        let newList = productList.filter((prod) => prod.id != id);
+        newList.push(result.data.product);
+        setProductList(newList);
         setError("");
       })
       .catch((err) => {
@@ -38,29 +43,36 @@ const NewProduct = () => {
       });
   };
 
+  useEffect(() => {
+    seteditProduct(productList.find((prod) => prod._id == location.state.id));
+  }, []);
   return (
     <div className="newProdect">
-      <h2>Add New Product</h2>
+      <h2>Edit Product</h2>
       <input
         type="text"
         name="name"
+        value={editProduct.name}
         placeholder="Product Name"
         onChange={handelChange}
       />
       <input
         type="text"
         name="image"
+        value={editProduct.image}
         placeholder="Image URL"
         onChange={handelChange}
       />
       <input
         type="number"
         name="price"
+        value={editProduct.price}
         placeholder="Product Price"
         onChange={handelChange}
       />
       <textarea
         name="description"
+        value={editProduct.description}
         placeholder="Product Description"
         rows="4"
         onChange={handelChange}
@@ -76,7 +88,7 @@ const NewProduct = () => {
       />
       <select
         name="categoryId"
-        value={productData.categoryId}
+        value={editProduct.categoryId}
         onChange={handelChange}
       >
         <option value="">Select a Category</option>
@@ -86,11 +98,13 @@ const NewProduct = () => {
           </option>
         ))}
       </select>
-      <button onClick={handelCreateProduct}>Add Product</button>
+      <button onClick={() => handelUpdateProduct(editProduct._id)}>
+        Update Product
+      </button>
       {message && <div className="success-message">{message}</div>}
       {error && <div className="error-message">{error}</div>}
     </div>
   );
 };
 
-export default NewProduct;
+export default EditProduct;

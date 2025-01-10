@@ -13,6 +13,8 @@ import Favorites from "./components/favorites";
 import ContactUs from "./components/contactUs";
 import AboutUs from "./components/aboutUs";
 import Categories from "./components/categories";
+import Products from "./components/productes";
+import EditProduct from "./components/editProduct";
 export const userContext = createContext();
 
 const App = () => {
@@ -25,8 +27,6 @@ const App = () => {
   const [favoriteList, setFavoriteList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [productList, setProductList] = useState([]);
-  // console.log(categoryList);
-  // console.log(productList);
 
   const getCategories = () => {
     axios
@@ -83,6 +83,7 @@ const App = () => {
         <Routes>
           <Route path="/homePage" element={<HomePage />} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/products" element={<Products />} />
           <Route path="/register" element={<Register />} />
           <Route path="/contactUs" element={<ContactUs />} />
           <Route path="/aboutUs" element={<AboutUs />} />
@@ -91,6 +92,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/addProduct" element={<NewProduct />} />
           <Route path="/addCategory" element={<AddCategory />} />
+          <Route path="/editProduct" element={<EditProduct />} />
         </Routes>
       </div>
     </userContext.Provider>

@@ -9,20 +9,19 @@ const Navbar = () => {
     useContext(userContext);
 
   const handelLogout = () => {
-    localStorage.removeItem("userCreds");
     setIsLoggedIn(false);
+    localStorage.removeItem("userCreds");
     setUserCreds({});
     navigate("/homePage");
+    setIsLoggedIn(false);
   };
-
-  const handelSearch = () => {};
 
   return (
     <div className="navbar">
       <div className="navbar-header">
         <h1 className="title">My E-Commerce</h1>
         <div className="user-info">
-          {isLoggedIn ? (
+          {Object.keys(userCreds || {}).length > 0 ? (
             <>
               <span className="username">
                 Welcome {userCreds?.payload?.userName}
@@ -53,20 +52,13 @@ const Navbar = () => {
         <Link to="/ContactUs">Contact Us</Link>
         <Link to="/aboutUs">About Us</Link>
         {isLoggedIn &&
-          userCreds.payload.role?.permissions?.product?.includes("POST") && (
+          userCreds.payload?.role?.permissions?.product?.includes("POST") && (
             <Link to="/addProduct">Add Product</Link>
           )}
         {isLoggedIn &&
-          userCreds.payload.role?.permissions?.category?.includes("POST") && (
+          userCreds.payload?.role?.permissions?.category?.includes("POST") && (
             <Link to="/addCategory">Add Category</Link>
           )}
-      </div>
-
-      <div className="navbar-search">
-        <input type="text" name="search" placeholder="Search ..." />
-        <button type="submit">
-          <i className="fas fa-search"></i>
-        </button>
       </div>
     </div>
   );

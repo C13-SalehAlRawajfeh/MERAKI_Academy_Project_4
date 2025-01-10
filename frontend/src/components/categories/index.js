@@ -1,11 +1,11 @@
 import React, { useEffect, useContext, useState } from "react";
 import { userContext } from "../../App";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./style.css";
 
 const Categories = () => {
-  const { categoryList } = useContext(userContext);
+  const { categoryList, isLoggedIn, userCreds } = useContext(userContext);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -26,6 +26,7 @@ const Categories = () => {
     setSelectedCategory(null);
     setProducts([]);
   };
+
   const addToCart = () => {};
   const addToFavorite = () => {};
 
@@ -56,6 +57,22 @@ const Categories = () => {
                     <button onClick={addToFavorite}>
                       <i className="fas fa-heart"></i>
                     </button>
+                    {isLoggedIn &&
+                      userCreds.payload?.role?.permissions?.product?.includes(
+                        "PUT"
+                      ) && (
+                        <button>
+                          <i className="fas fa-edit"></i>
+                        </button>
+                      )}
+                    {isLoggedIn &&
+                      userCreds.payload?.role?.permissions?.product?.includes(
+                        "DELETE"
+                      ) && (
+                        <button className="delete-button">
+                          <i className="fas fa-trash"></i>
+                        </button>
+                      )}
                   </div>
                 </div>
               ))

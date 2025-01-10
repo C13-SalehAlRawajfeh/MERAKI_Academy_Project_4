@@ -85,7 +85,7 @@ const login = (req, res) => {
             message: `The email doesn't exist or The password you’ve entered is incorrect`,
           });
         }
-        userId = result._id
+        userId = result._id;
         cartModel
           .findOne({ userId })
           .then((cartObj) => {
@@ -96,7 +96,7 @@ const login = (req, res) => {
             };
 
             const options = {
-              expiresIn: "60m",
+              expiresIn: "360m",
             };
             const token = jwt.sign(payload, process.env.SECRET, options);
             res.status(200).json({
@@ -126,7 +126,42 @@ const login = (req, res) => {
     });
 };
 
+const updateUser = (req, res) => {
+  const userId = req.params.id;
+  const { productId } = req.body;
+  console.log("fav", productId);
+
+  userModel
+    .findOneAndUpdate(
+      { _id: userId },
+      { $addToSet: { fav: productId } },
+      { new: true }
+    )
+    .then((result) => {
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: `User with id ${userId} not found`,
+        });
+      }
+      console.log("result", result.fav);
+      res.status(200).json({
+        success: true,
+        message: "User updated",
+        result: result.fav,
+      });
+    })
+    .catch((err) => {
+      res.status(404).json({
+        success: false,
+        message: "server error",
+        err: err,
+      });
+    });
+};
+
 module.exports = {
   register,
   login,
+  updateUser,
 };
